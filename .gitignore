@@ -41,6 +41,9 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Snowpack dependency directory (https://snowpack.dev/)
+web_modules/
+
 # TypeScript v1 declaration files
 typings/
 
@@ -102,3 +105,13 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# yarn v2
+
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.pnp.*
