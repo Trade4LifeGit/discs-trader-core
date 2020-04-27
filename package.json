@@ -4,7 +4,13 @@
   "description": "The core microservice of the Telegram Trader Bot project",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "build": "npm run clean && babel src -d dist",
+    "now-build": "npm run build",
+    "clean": "rimraf dist",
+    "dev": "nodemon --exec babel-node ./src/index.js",
+    "start": "npm run clean && npm run build && cd dist && node index.js",
+    "test": "jest src --watch",
+    "test:e2e": "jest ./__test__ --runInBand"
   },
   "repository": {
     "type": "git",
