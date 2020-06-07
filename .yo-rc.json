@@ -1,0 +1,38 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.trade4life.discs.trader.core"
+    },
+    "jhipsterVersion": "6.9.1",
+    "applicationType": "microservice",
+    "baseName": "DiscsTraderCore",
+    "packageName": "com.trade4life.discs.trader.core",
+    "packageFolder": "com/trade4life/discs/trader/core",
+    "serverPort": "8081",
+    "authenticationType": "jwt",
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "mongodb",
+    "devDatabaseType": "mongodb",
+    "prodDatabaseType": "mongodb",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "OGM5NGUwODdkNDM4MTA2MTIwM2UwMGIwYmE2NWMxOTQxNzU3MDUyMzQ2N2VhY2YyN2UyZGVjMTJiM2IzNDI1MDc4MzA3MDFjM2Y2NzAxY2YwZDkwM2Q0M2FjMGNkODgzNDNjYTJiZTY2Yzk5NWQ0YTA5MjVmNGYzYzhjYmJkZDM=",
+    "embeddableLaunchScript": false,
+    "creationTimestamp": 1591206564571,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "clientPackageManager": "npm",
+    "blueprints": [],
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}
