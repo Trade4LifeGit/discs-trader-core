@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.trade4life.discs.trader.core.repository.GamesRepository;
 import com.trade4life.discs.trader.core.service.dto.Game;
 import com.trade4life.discs.trader.core.service.dto.Platform;
+import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -63,7 +64,7 @@ public class PsnGamesRepositoryMock implements GamesRepository {
         TEST_GAMES_BY_PLATFORM.put(Platform.ESHOP, Collections.emptyList());
     }
 
-    public Set<String> findGamesTitles(String titleText, Integer page, Integer size, Boolean isProposition, Platform platform) {
+    public Set<String> findGamesTitles(String titleText, Boolean isProposition, Platform platform, Pageable pageable) {
         Set<String> titlesByPlatform = TEST_TITLES_BY_PLATFORM.get(platform);
 
         List<String> searchResult = titlesByPlatform.stream()
@@ -74,22 +75,22 @@ public class PsnGamesRepositoryMock implements GamesRepository {
             return Collections.emptySet();
         }
 
-        List<List<String>> pages = Lists.partition(searchResult, size);
-
-        return page > pages.size() ? Collections.emptySet() : new HashSet<>(pages.get(page - 1));
+        List<List<String>> pages = Lists.partition(searchResult, pageable.getPageSize());
+        int pageNumber = pageable.getPageNumber();
+        return pageNumber > pages.size() ? Collections.emptySet() : new HashSet<>(pages.get(pageNumber - 1));
     }
 
-    public List<Game> findGamesByTitleAndPlatform(Set<String> titleNames, Integer page, Integer size, Platform platform) {
+    public List<Game> findGamesByTitleAndPlatform(Set<String> titleNames, Platform platform, Pageable pageable) {
         List<Game> gamesByPlatform = TEST_GAMES_BY_PLATFORM.get(platform);
         List<Game> searchResult = gamesByPlatform.stream()
             .filter(game -> titleNames.isEmpty() || titleNames.contains(game.getTitle()))
             .collect(Collectors.toList());
-        List<List<Game>> pages = Lists.partition(searchResult, size);
+        List<List<Game>> pages = Lists.partition(searchResult, pageable.getPageSize());
         int totalPages = pages.size();
-        if (page > totalPages) {
+        if (pageable.getPageNumber() > totalPages) {
             return Collections.emptyList();
         }
-        return pages.get(page - 1);
+        return pages.get(pageable.getPageNumber() - 1);
     }
 
     public Game findGameById(Integer id, Platform platform) {
