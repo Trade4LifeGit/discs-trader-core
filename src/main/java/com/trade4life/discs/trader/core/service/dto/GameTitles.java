@@ -13,8 +13,8 @@ import java.util.Set;
 @AllArgsConstructor
 @ApiModel(value = "Titles", description = "Game titles")
 public class GameTitles {
-    @ApiModelProperty(position = 1, example = "Ведьмак 3: Дикая Охота")
+    @ApiModelProperty(position = 1, example = "The Witcher 3: Wild Hunt")
     private Set<String> titles;
-    @ApiModelProperty(position = 2, example = "Ведьмак 3: Дикая Охота — Каменные сердца, Ведьмак 3: Дикая Охота — Кровь и вино")
+    @ApiModelProperty(position = 2, example = "The Witcher 3: Wild Hunt — Hearts of Stone")
     private Set<String> propositions;
 }
