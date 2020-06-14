@@ -6,13 +6,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
 public interface GamesRepository {
-    Set<String> findGamesTitles(String titleText, Boolean isProposition, Platform platform, Pageable pageable);
+    Optional<String> findGameTitle(String titleText, Platform platform);
 
-    List<Game> findGamesByTitleAndPlatform(Set<String> titleNames, Platform platform, Pageable pageable);
+    Set<String> findGameTitlePropositions(String titleText, Platform platform, Integer propositionSize);
 
-    Game findGameById(Integer id, Platform platform);
+    List<Game> findGamesByTitleAndPlatform(Set<String> fullTitles, Platform platform, Pageable pageable);
+
+    Optional<Game> findGameById(Integer id, Platform platform);
 }

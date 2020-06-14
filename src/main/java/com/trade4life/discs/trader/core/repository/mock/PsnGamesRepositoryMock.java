@@ -5,10 +5,13 @@ import com.trade4life.discs.trader.core.repository.GamesRepository;
 import com.trade4life.discs.trader.core.service.dto.Game;
 import com.trade4life.discs.trader.core.service.dto.Platform;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
 public class PsnGamesRepositoryMock implements GamesRepository {
     private final static String TEST_TITLE_1 = "The Witcher 3: Wild Hunt";
     private final static String TEST_TITLE_2 = "The Witcher 3: Wild Hunt — Hearts of Stone";
@@ -64,27 +67,30 @@ public class PsnGamesRepositoryMock implements GamesRepository {
         TEST_GAMES_BY_PLATFORM.put(Platform.ESHOP, Collections.emptyList());
     }
 
-    public Set<String> findGamesTitles(String titleText, Boolean isProposition, Platform platform, Pageable pageable) {
+    public Optional<String> findGameTitle(String titleText, Platform platform) {
         Set<String> titlesByPlatform = TEST_TITLES_BY_PLATFORM.get(platform);
 
         List<String> searchResult = titlesByPlatform.stream()
-            .filter(title -> isProposition ? title.contains(titleText) : title.equalsIgnoreCase(titleText))
+            .filter(title -> title.equalsIgnoreCase(titleText))
             .collect(Collectors.toList());
 
-        if (searchResult.isEmpty()) {
-            return Collections.emptySet();
-        }
-
-        List<List<String>> pages = Lists.partition(searchResult, pageable.getPageSize());
-        int pageNumber = pageable.getPageNumber();
-        return pageNumber > pages.size() ? Collections.emptySet() : new HashSet<>(pages.get(pageNumber - 1));
+        return searchResult.isEmpty() ? Optional.empty() : Optional.of(searchResult.get(0));
     }
 
-    public List<Game> findGamesByTitleAndPlatform(Set<String> titleNames, Platform platform, Pageable pageable) {
+    public Set<String> findGameTitlePropositions(String titleText, Platform platform, Integer propositionSize) {
+        Set<String> titlesByPlatform = TEST_TITLES_BY_PLATFORM.get(platform);
+
+        return titlesByPlatform.stream()
+            .filter(title -> titleText == null || title.contains(titleText))
+            .collect(Collectors.toSet());
+    }
+
+    public List<Game> findGamesByTitleAndPlatform(Set<String> fullTitles, Platform platform, Pageable pageable) {
         List<Game> gamesByPlatform = TEST_GAMES_BY_PLATFORM.get(platform);
         List<Game> searchResult = gamesByPlatform.stream()
-            .filter(game -> titleNames.isEmpty() || titleNames.contains(game.getTitle()))
+            .filter(game -> CollectionUtils.isEmpty(fullTitles) || fullTitles.contains(game.getTitle()))
             .collect(Collectors.toList());
+
         List<List<Game>> pages = Lists.partition(searchResult, pageable.getPageSize());
         int totalPages = pages.size();
         if (pageable.getPageNumber() > totalPages) {
@@ -93,11 +99,11 @@ public class PsnGamesRepositoryMock implements GamesRepository {
         return pages.get(pageable.getPageNumber() - 1);
     }
 
-    public Game findGameById(Integer id, Platform platform) {
+    public Optional<Game> findGameById(Integer id, Platform platform) {
         List<Game> gamesByPlatform = TEST_GAMES_BY_PLATFORM.get(platform);
         List<Game> searchResult = gamesByPlatform.stream()
             .filter(game -> game.getId().equals(id))
             .collect(Collectors.toList());
-        return searchResult.isEmpty() ? null : searchResult.get(0);
+        return searchResult.isEmpty() ? Optional.empty() : Optional.of(searchResult.get(0));
     }
 }
