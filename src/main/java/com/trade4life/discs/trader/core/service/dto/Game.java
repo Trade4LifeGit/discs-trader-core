@@ -19,7 +19,7 @@ public class Game {
     private String title;
     @ApiModelProperty(position = 3, example = "description")
     private String description;
-    @ApiModelProperty(position = 4, allowableValues = "PSN, ESHOP", example = "PSN")
+    @ApiModelProperty(position = 4, allowableValues = "PSN, ESHOP")
     private Platform platform;
     @ApiModelProperty(position = 5, example = "https://bit.ly/2C1oaH3")
     private String image;
