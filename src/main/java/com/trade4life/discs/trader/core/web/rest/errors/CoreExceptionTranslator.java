@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,13 @@ public class CoreExceptionTranslator {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected ResponseEntity<Map<String, String>> methodArgumentTypeMismatchException(final MethodArgumentTypeMismatchException ex) {
         LOGGER.warn(ex.getMessage());
+        return buildErrorResponse(METHOD_ARGUMENT_EXCEPTION, ex.getMessage(), BAD_REQUEST);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<Map<String, String>> constraintViolationException(final ConstraintViolationException ex) {
+        LOGGER.info(ex.getMessage());
         return buildErrorResponse(METHOD_ARGUMENT_EXCEPTION, ex.getMessage(), BAD_REQUEST);
     }
 
