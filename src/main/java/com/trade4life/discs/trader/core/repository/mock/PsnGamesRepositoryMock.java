@@ -67,6 +67,7 @@ public class PsnGamesRepositoryMock implements GamesRepository {
         TEST_GAMES_BY_PLATFORM.put(Platform.ESHOP, Collections.emptyList());
     }
 
+    @Override
     public Optional<String> findGameTitle(String titleText, Platform platform) {
         Set<String> titlesByPlatform = TEST_TITLES_BY_PLATFORM.get(platform);
 
@@ -77,6 +78,7 @@ public class PsnGamesRepositoryMock implements GamesRepository {
         return searchResult.isEmpty() ? Optional.empty() : Optional.of(searchResult.get(0));
     }
 
+    @Override
     public Set<String> findGameTitlePropositions(String titleText, Platform platform, Integer propositionSize) {
         Set<String> titlesByPlatform = TEST_TITLES_BY_PLATFORM.get(platform);
 
@@ -85,6 +87,7 @@ public class PsnGamesRepositoryMock implements GamesRepository {
             .collect(Collectors.toSet());
     }
 
+    @Override
     public List<Game> findGamesByTitleAndPlatform(Set<String> fullTitles, Platform platform, Pageable pageable) {
         List<Game> gamesByPlatform = TEST_GAMES_BY_PLATFORM.get(platform);
         List<Game> searchResult = gamesByPlatform.stream()
@@ -99,6 +102,7 @@ public class PsnGamesRepositoryMock implements GamesRepository {
         return pages.get(pageable.getPageNumber() - 1);
     }
 
+    @Override
     public Optional<Game> findGameById(Integer id, Platform platform) {
         List<Game> gamesByPlatform = TEST_GAMES_BY_PLATFORM.get(platform);
         List<Game> searchResult = gamesByPlatform.stream()
