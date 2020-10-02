@@ -116,28 +116,4 @@ public class UsersController {
         User updatedUser = userService.updateUser(user);
         return new ResponseEntity<>(updatedUser, HttpStatus.NO_CONTENT);
     }
-
-//    @ApiOperation(value = "Block the user by userId", nickname = "blockUserById")
-//    @ApiResponses(value = {
-//        @ApiResponse(code = 204, message = "Blocked"),
-//        @ApiResponse(code = 400, message = "Bad request"),
-//        @ApiResponse(code = 403, message = "Access denied"),
-//        @ApiResponse(code = 500, message = "Internal error")
-//    })
-//    @PutMapping(value = "users/{userId}/block", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<User> blockUserById(@RequestParam String userId) {
-//        return new ResponseEntity(HttpStatus.NO_CONTENT);
-//    }
-//
-//    @ApiOperation(value = "Unblock the user by userId", nickname = "unblockUserById")
-//    @ApiResponses(value = {
-//        @ApiResponse(code = 204, message = "Blocked"),
-//        @ApiResponse(code = 400, message = "Bad request"),
-//        @ApiResponse(code = 403, message = "Access denied"),
-//        @ApiResponse(code = 500, message = "Internal error")
-//    })
-//    @PutMapping(value = "users/{userId}/unblock", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity unblockUserById(@RequestParam String userId) {
-//        return new ResponseEntity(HttpStatus.NO_CONTENT);
-//    }
 }
