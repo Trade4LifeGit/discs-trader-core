@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Set;
 
 @Builder
 @Getter
@@ -12,9 +13,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Document(value = "games.title")
-@ApiModel(value = "Title", description = "Game title search result")
-public class Title {
+@ApiModel(value = "TitleResponse", description = "Title search result")
+public class TitleResponse {
     @ApiModelProperty(position = 1, example = "The Witcher 3: Wild Hunt")
     private String title;
+    @ApiModelProperty(position = 2, example = "The Witcher 3: Wild Hunt — Hearts of Stone")
+    private Set<String> propositions;
 }

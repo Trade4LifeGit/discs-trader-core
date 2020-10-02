@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Builder
 @Getter
@@ -11,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Document(collection = "users")
 @ApiModel(value = "User", description = "User information")
 public class User {
     @ApiModelProperty(position = 1, example = "1")
