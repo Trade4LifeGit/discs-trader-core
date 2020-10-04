@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public interface MongoGameRepository extends MongoRepository<Game, String> {
+public interface GameRepository extends MongoRepository<Game, String> {
 
     @Query(value = "{'title': {$regex : ?0, $options: 'i'}}", fields = "{title : 1}")
     List<Title> findTitlesByText(String titleText, Pageable pageable);
