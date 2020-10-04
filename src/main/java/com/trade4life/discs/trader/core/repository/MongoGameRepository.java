@@ -15,9 +15,16 @@ public interface MongoGameRepository extends MongoRepository<Game, String> {
     @Query(value = "{'title': {$regex : ?0, $options: 'i'}}", fields = "{title : 1}")
     List<Title> findTitlesByText(String titleText, Pageable pageable);
 
+    @Query(value = "{'title': {$ne : null}}", fields = "{title : 1}")
+    List<Title> findAllTitles(Pageable pageable);
+
+    @Query(value = "{'title': {$ne : null}}")
+    List<Game> findAllGames(Pageable pageable);
+
     @Query(value = "{'title': {$regex : ?0, $options: 'i'}}")
     List<Game> findGamesByTitlePart(String titlePart, Pageable pageable);
 
+    @Query(value = "{'title': {$in : [?0]}}")
     List<Game> findGamesByTitleIn(Set<String> fullTitles, Pageable pageable);
 
     Optional<Game> findGameById(String id);
