@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.trade4life.discs.trader.core.service.exception.CoreInternalErrorCode.GAME_NOT_FOUND;
@@ -37,19 +36,6 @@ public class GamesServiceImpl implements GamesService {
                 .map(Title::getTitle)
                 .collect(Collectors.toSet())
             )
-            .build();
-    }
-
-    @Override
-    public GamesResponse findGamesByTitleAndPlatform(Set<String> gameTitles, Platform platform, Pageable pageable) {
-        List<Game> games = gameTitles.isEmpty() ? gameRepository.findAllGames(pageable) :
-            gameRepository.findGamesByTitleIn(gameTitles, pageable);
-
-        return GamesResponse.builder()
-            .platform(platform)
-            .page(pageable.getPageNumber())
-            .size(pageable.getPageSize())
-            .games(games)
             .build();
     }
 
