@@ -1,22 +1,24 @@
 package com.trade4life.discs.trader.core.repository;
 
-import com.trade4life.discs.trader.core.service.dto.Platform;
 import com.trade4life.discs.trader.core.service.dto.User;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository {
-    Optional<User> findUserById(Integer id);
+public interface UserRepository extends MongoRepository<User, String> {
+    Optional<User> findUserById(String id);
 
-    Optional<User> findUserByNickname(String nickname, Platform platform);
+    @Query(value = "{'id': {$ne : null}}")
+    List<User> findAllUsers(Pageable pageable);
 
-    List<User> findUsers(Pageable pageable);
+    @Query(value = "{'nickname': {$eq : ?0}}")
+    Optional<User> findUserByNickname(String nickname);
 
-    User addNewUser(User user);
-
-    Optional<User> updateUser(User user);
+    @Query(value = "{'telegramId': {$eq : ?0}}")
+    Optional<User> findUserByTelegramId(String telegramId);
 }
