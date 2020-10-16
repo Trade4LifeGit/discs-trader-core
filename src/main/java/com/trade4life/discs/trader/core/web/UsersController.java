@@ -17,12 +17,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/telegram")
 @RequiredArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Api(value = "core-users", tags = "core-users")
@@ -44,7 +45,9 @@ public class UsersController {
                                           @RequestParam(name = "page") @NotNull @Positive Integer page,
                                           @ApiParam(name = "size", value = "Number of records per page (1..N)", defaultValue = "5")
                                           @RequestParam(name = "size") @NotNull @Positive Integer size) {
-
+        if (page > 0) {
+            page = page - 1;
+        }
         Pageable pageable = PageRequest.of(page, size);
         List<User> users = userService.findUsers(pageable);
 
@@ -56,21 +59,21 @@ public class UsersController {
         return new ResponseEntity<>(usersResponse, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Get user by userId", nickname = "getUserById")
+    @ApiOperation(value = "Get user by telegramId", nickname = "getUserByTelegramId")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Ok"),
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 403, message = "Access denied"),
         @ApiResponse(code = 500, message = "Internal error")
     })
-    @GetMapping(value = "users/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUserById(@ApiParam(name = "userId", value = "User id", example = "1", required = true)
-                                            @PathVariable(name = "userId") @NotNull @Positive Integer userId) {
-        User user = userService.findUserById(userId);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    @GetMapping(value = "users/{telegramId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> getUserByTelegramId(@ApiParam(name = "telegramId", value = "Telegram id", example = "dfdgra", required = true)
+                                                    @PathVariable(name = "telegramId") @NotBlank String telegramId) {
+        User telegramUser = userService.findUserByTelegramId(telegramId);
+        return new ResponseEntity<>(telegramUser, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Get user by nickname and platform", nickname = "getUserByNicknameAndPlatform")
+    @ApiOperation(value = "Get telegram user by nickname", nickname = "getUserByNickname")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Ok"),
         @ApiResponse(code = 400, message = "Bad request"),
@@ -82,11 +85,11 @@ public class UsersController {
                                             @PathVariable(name = "platform") @NotNull Platform platform,
                                             @ApiParam(name = "nickname", value = "User nickname", example = "1", required = true)
                                             @PathVariable(name = "nickname") @NotNull @Positive String nickname) {
-        User user = userService.findUserByNickname(nickname, platform);
+        User user = userService.findUserByNickname(nickname);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Add new user", nickname = "addNewUser")
+    @ApiOperation(value = "Register new telegram user", nickname = "registerNewUser")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Ok"),
         @ApiResponse(code = 400, message = "Bad request"),
@@ -94,8 +97,8 @@ public class UsersController {
         @ApiResponse(code = 500, message = "Internal error")
     })
     @PostMapping(value = "users", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> addNewUser(@ApiParam(name = "user", value = "User information", defaultValue = "1")
-                                           @RequestBody @NotNull User user) {
+    public ResponseEntity<User> registerNewUser(@ApiParam(name = "user", value = "User information", defaultValue = "1")
+                                                @RequestBody @NotNull User user) {
         User newUser = userService.addNewUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
@@ -107,12 +110,12 @@ public class UsersController {
         @ApiResponse(code = 403, message = "Access denied"),
         @ApiResponse(code = 500, message = "Internal error")
     })
-    @PutMapping(value = "users/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "users/{telegramId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> updateUser(@ApiParam(name = "user", value = "User information", defaultValue = "1")
                                            @RequestBody @NotNull User user,
-                                           @ApiParam(name = "userId", value = "User id", example = "1", required = true)
-                                           @PathVariable(name = "userId") @NotNull @Positive Integer userId) {
-        user.setId(userId);
+                                           @ApiParam(name = "telegramId", value = "Telegram id", example = "errssgggeeq", required = true)
+                                           @PathVariable(name = "telegramId") @NotBlank String telegramId) {
+        user.setTelegramId(telegramId);
         User updatedUser = userService.updateUser(user);
         return new ResponseEntity<>(updatedUser, HttpStatus.NO_CONTENT);
     }

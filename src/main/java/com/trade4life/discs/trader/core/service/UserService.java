@@ -1,15 +1,16 @@
 package com.trade4life.discs.trader.core.service;
 
-import com.trade4life.discs.trader.core.service.dto.Platform;
 import com.trade4life.discs.trader.core.service.dto.User;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface UserService {
-    User findUserById(Integer id);
+    User findUserById(String id);
 
-    User findUserByNickname(String nickname, Platform platform);
+    User findUserByTelegramId(String telegramId);
+
+    User findUserByNickname(String nickname);
 
     List<User> findUsers(Pageable pageable);
 
