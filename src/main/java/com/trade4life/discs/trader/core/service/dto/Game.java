@@ -1,5 +1,6 @@
 package com.trade4life.discs.trader.core.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,6 +22,7 @@ public class Game {
     private String ps4Id;
     @ApiModelProperty(position = 3, example = "The Witcher 3: Wild Hunt")
     private String title;
+    @JsonIgnore
     @ApiModelProperty(position = 4, example = "description")
     private String description;
     @ApiModelProperty(position = 5, allowableValues = "PSN, ESHOP")
