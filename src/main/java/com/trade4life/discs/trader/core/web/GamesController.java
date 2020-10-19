@@ -62,9 +62,9 @@ public class GamesController {
                                           @PathVariable(name = "platform") @NotNull Platform platform,
                                           @ApiParam(name = "titlePart", value = "Game title part", example = "The Witche")
                                           @RequestParam(name = "titlePart", required = false) String titlePart,
-                                          @ApiParam(name = "page", value = "Page number (1..N)", defaultValue = "1")
-                                          @RequestParam(name = "page") @NotNull @Positive Integer page,
-                                          @ApiParam(name = "size", value = "Number of records per page (1..N)", defaultValue = "5")
+                                          @ApiParam(name = "page", value = "Page number (0..N)", defaultValue = "0")
+                                          @RequestParam(name = "page") @NotNull Integer page,
+                                          @ApiParam(name = "size", value = "Number of records per page (0..N)", defaultValue = "5")
                                           @RequestParam(name = "size") @NotNull @Positive Integer size) {
         Pageable pageable = PageRequest.of(page, size);
         GamesResponse gamesResponse = gamesService.findGamesByTitlePartAndPlatform(titlePart, platform, pageable);

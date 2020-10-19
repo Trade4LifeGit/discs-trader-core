@@ -19,6 +19,10 @@ public class GamesResponse {
     private Integer page;
     @ApiModelProperty(position = 3, example = "3")
     private Integer size;
-    @ApiModelProperty(position = 4)
+    @ApiModelProperty(position = 4, example = "5")
+    private Integer totalPages;
+    @ApiModelProperty(position = 5, example = "7")
+    private Long totalGames;
+    @ApiModelProperty(position = 6)
     private List<Game> games;
 }
