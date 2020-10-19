@@ -39,6 +39,10 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017
       database: DiscsTraderCore
+      #check
+    web:
+      pageable:
+        one-indexed-parameters: true
   mail:
     host: localhost
     port: 25
