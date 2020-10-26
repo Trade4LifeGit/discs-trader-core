@@ -1,14 +1,13 @@
-package com.trade4life.discs.trader.core.repository;
+package com.trade4life.discs.trader.core.service;
 
 import com.trade4life.discs.trader.core.service.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-public interface OfferRepository extends MongoRepository<Offer, String> {
+public interface OfferService {
     //offers by user--- to check could i buy something else for one seller
     Page<Offer> findOffersByUserId(String userId, Pageable pageable, Sort sort);
 
@@ -27,6 +26,10 @@ public interface OfferRepository extends MongoRepository<Offer, String> {
     //offers by status
     Page<Offer> findOffersByStatus(OfferStatus offerStatus, Pageable pageable, Sort sort);
 
+
+
+    //!!!!!!
+    Page<Offer> findOffersByParams(OfferSearchParams offerSearchParams, Pageable pageable);
+
     Optional<Offer> findOffersById(String offerId);
 }
-//
