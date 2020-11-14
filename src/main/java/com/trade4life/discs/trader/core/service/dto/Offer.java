@@ -1,5 +1,6 @@
 package com.trade4life.discs.trader.core.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,16 +12,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = {"id", "gameId", "telegramUserId"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(collection = "offers")
 @ApiModel(value = "Offer", description = "Offer information")
 public class Offer {
-    @ApiModelProperty(position = 1, example = "5f70948f17361f2260cb22a7")
+    @ApiModelProperty(position = 1)
     private String id;
     @ApiModelProperty(position = 2)
     private String gameId;
     @ApiModelProperty(position = 3)
-    private String userId;
+    private String telegramUserId;
     @ApiModelProperty(position = 4, example = "PSN")
     private Platform platform;
     @ApiModelProperty(position = 5, example = "BELARUS")
@@ -31,6 +33,7 @@ public class Offer {
     private String description;
     @ApiModelProperty(position = 8, example = "75")
     private Integer price;
-    @ApiModelProperty(position = 9, example = "PENDING")
+    @ApiModelProperty(position = 9, example = "PUBLISHED")
+    @JsonIgnore
     private OfferStatus status;
 }
