@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "Games", description = "Games search result")
+@ApiModel(value = "GamesResponse", description = "Games search result")
 public class GamesResponse {
     @ApiModelProperty(position = 1, allowableValues = "PSN, ESHOP", example = "PSN")
     private Platform platform;

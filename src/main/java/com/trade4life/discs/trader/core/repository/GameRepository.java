@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import java.util.Optional;
+import java.util.Set;
 
 public interface GameRepository extends MongoRepository<Game, String> {
 
@@ -22,6 +23,8 @@ public interface GameRepository extends MongoRepository<Game, String> {
 
     @Query(value = "{'title': {$regex : ?0, $options: 'i'}}")
     Page<Game> findGamesByTitlePart(String titlePart, Pageable pageable);
+
+    Set<Game> findGamesByIdIn(Set<String> gameId);
 
     Optional<Game> findGameById(String id);
 }
