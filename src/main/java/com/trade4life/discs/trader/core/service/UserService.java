@@ -1,6 +1,6 @@
 package com.trade4life.discs.trader.core.service;
 
-import com.trade4life.discs.trader.core.service.dto.User;
+import com.trade4life.discs.trader.core.domain.User;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

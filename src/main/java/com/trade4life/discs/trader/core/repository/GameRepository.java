@@ -1,7 +1,7 @@
 package com.trade4life.discs.trader.core.repository;
 
-import com.trade4life.discs.trader.core.service.dto.Game;
-import com.trade4life.discs.trader.core.service.dto.Title;
+import com.trade4life.discs.trader.core.domain.Game;
+import com.trade4life.discs.trader.core.domain.Title;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;

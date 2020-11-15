@@ -1,6 +1,8 @@
 package com.trade4life.discs.trader.core.web;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.trade4life.discs.trader.core.domain.Game;
+import com.trade4life.discs.trader.core.domain.Platform;
 import com.trade4life.discs.trader.core.service.GamesService;
 import com.trade4life.discs.trader.core.service.dto.*;
 import io.swagger.annotations.*;

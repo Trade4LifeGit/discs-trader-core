@@ -1,6 +1,6 @@
 package com.trade4life.discs.trader.core.repository;
 
-import com.trade4life.discs.trader.core.service.dto.User;
+import com.trade4life.discs.trader.core.domain.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;

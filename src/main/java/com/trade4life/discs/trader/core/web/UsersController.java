@@ -2,9 +2,9 @@ package com.trade4life.discs.trader.core.web;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.trade4life.discs.trader.core.service.UserService;
-import com.trade4life.discs.trader.core.service.dto.Platform;
-import com.trade4life.discs.trader.core.service.dto.User;
-import com.trade4life.discs.trader.core.web.dto.Users;
+import com.trade4life.discs.trader.core.domain.Platform;
+import com.trade4life.discs.trader.core.domain.User;
+import com.trade4life.discs.trader.core.service.dto.UserResponse;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -41,9 +41,9 @@ public class UsersController {
         @ApiResponse(code = 500, message = "Internal error")
     })
     @GetMapping(value = "users", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Users> getUsers(@ApiParam(name = "page", value = "Page number (1..N)", defaultValue = "1")
+    public ResponseEntity<UserResponse> getUsers(@ApiParam(name = "page", value = "Page number (1..N)", defaultValue = "1")
                                           @RequestParam(name = "page") @NotNull @Positive Integer page,
-                                          @ApiParam(name = "size", value = "Number of records per page (1..N)", defaultValue = "5")
+                                                 @ApiParam(name = "size", value = "Number of records per page (1..N)", defaultValue = "5")
                                           @RequestParam(name = "size") @NotNull @Positive Integer size) {
         if (page > 0) {
             page = page - 1;
@@ -51,12 +51,12 @@ public class UsersController {
         Pageable pageable = PageRequest.of(page, size);
         List<User> users = userService.findUsers(pageable);
 
-        Users usersResponse = Users.builder()
+        UserResponse userResponse = UserResponse.builder()
             .page(page)
             .size(size)
             .users(users)
             .build();
-        return new ResponseEntity<>(usersResponse, HttpStatus.OK);
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Get user by telegramId", nickname = "getUserByTelegramId")

@@ -1,4 +1,4 @@
-package com.trade4life.discs.trader.core.service.dto;
+package com.trade4life.discs.trader.core.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
