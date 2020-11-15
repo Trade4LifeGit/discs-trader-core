@@ -42,12 +42,12 @@ public class GamesServiceImpl implements GamesService {
     }
 
     @Override
-    public GamesResponse findGamesByTitlePartAndPlatform(String titlePart, Platform platform, Pageable pageable) {
+    public GameResponse findGamesByTitlePartAndPlatform(String titlePart, Platform platform, Pageable pageable) {
         Page<Game> gamesPage = StringUtils.isBlank(titlePart) ? gameRepository.findAllGames(pageable) :
             gameRepository.findGamesByTitlePart(titlePart, pageable);
 
         List<Game> pageContent = gamesPage.getContent();
-        return GamesResponse.builder()
+        return GameResponse.builder()
             .platform(platform)
             .page(pageable.getPageNumber())
             .size(pageable.getPageSize())

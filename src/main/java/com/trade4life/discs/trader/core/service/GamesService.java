@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 public interface GamesService {
     TitleResponse findGameTitle(String titlePart, Platform platform, Integer size);
 
-    GamesResponse findGamesByTitlePartAndPlatform(String titlePart, Platform platform, Pageable pageable);
+    GameResponse findGamesByTitlePartAndPlatform(String titlePart, Platform platform, Pageable pageable);
 
     Game findGameById(String id, Platform platform);
 }

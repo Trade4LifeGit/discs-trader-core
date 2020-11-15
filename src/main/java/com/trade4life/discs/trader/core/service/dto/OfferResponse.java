@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "OffersResponse", description = "Offers search result")
+@ApiModel(value = "OfferResponse", description = "Offers search result")
 public class OfferResponse {
     @ApiModelProperty(position = 1, allowableValues = "PSN, ESHOP", example = "PSN")
     private Platform platform;
