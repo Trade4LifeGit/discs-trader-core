@@ -1,9 +1,8 @@
 package com.trade4life.discs.trader.core.service;
 
 import com.trade4life.discs.trader.core.domain.User;
+import com.trade4life.discs.trader.core.service.dto.UserResponse;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface UserService {
     User findUserById(String id);
@@ -12,7 +11,7 @@ public interface UserService {
 
     User findUserByNickname(String nickname);
 
-    List<User> findUsers(Pageable pageable);
+    UserResponse findUsers(Pageable pageable);
 
     User addNewUser(User user);
 

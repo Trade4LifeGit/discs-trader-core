@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/telegram")
@@ -41,22 +40,15 @@ public class UsersController {
         @ApiResponse(code = 500, message = "Internal error")
     })
     @GetMapping(value = "users", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserResponse> getUsers(@ApiParam(name = "page", value = "Page number (1..N)", defaultValue = "1")
-                                          @RequestParam(name = "page") @NotNull @Positive Integer page,
-                                                 @ApiParam(name = "size", value = "Number of records per page (1..N)", defaultValue = "5")
-                                          @RequestParam(name = "size") @NotNull @Positive Integer size) {
-        if (page > 0) {
-            page = page - 1;
-        }
-        Pageable pageable = PageRequest.of(page, size);
-        List<User> users = userService.findUsers(pageable);
+    public ResponseEntity<UserResponse> getUsers(@ApiParam(name = "page", value = "Page number (0..N)", defaultValue = "0")
+                                                 @RequestParam(name = "page") @NotNull @Positive Integer page,
+                                                 @ApiParam(name = "size", value = "Number of records per page (0..N)", defaultValue = "5")
+                                                 @RequestParam(name = "size") @NotNull @Positive Integer size) {
 
-        UserResponse userResponse = UserResponse.builder()
-            .page(page)
-            .size(size)
-            .users(users)
-            .build();
-        return new ResponseEntity<>(userResponse, HttpStatus.OK);
+        Pageable pageable = PageRequest.of(page, size);
+        UserResponse users = userService.findUsers(pageable);
+
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Get user by telegramId", nickname = "getUserByTelegramId")
