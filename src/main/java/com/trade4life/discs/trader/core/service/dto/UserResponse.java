@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@ApiModel(value = "Users", description = "Users search result")
+@ApiModel(value = "UserResponse", description = "Users search result")
 public class UserResponse {
     @ApiModelProperty(position = 1, allowableValues = "PSN, ESHOP", example = "PSN")
     private Platform platform;

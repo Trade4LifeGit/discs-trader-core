@@ -32,5 +32,4 @@ public class Game {
     private String image;
     @ApiModelProperty(position = 7, example = "https://store.playstation.com/en-us/product/UP0082-CUSA18774_00-0000000000000000")
     private String psnURL;
-    //release date
 }

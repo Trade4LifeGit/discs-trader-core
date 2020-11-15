@@ -27,7 +27,7 @@ public class Offer {
     private Platform platform;
     @ApiModelProperty(position = 5, example = "BELARUS")
     private Region region;
-    @ApiModelProperty(position = 6, example = "BUY")
+    @ApiModelProperty(position = 6, example = "SELL")
     private OfferType type;
     @ApiModelProperty(position = 7, example = "Open for swap. Minsk. Nemiga")
     private String description;

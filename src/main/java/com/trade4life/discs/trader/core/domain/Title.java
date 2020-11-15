@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(value = "games.title")
-@ApiModel(value = "Title", description = "Game title search result")
+@ApiModel(value = "Title", description = "Game title")
 public class Title {
     @ApiModelProperty(position = 1, example = "The Witcher 3: Wild Hunt")
     private String title;
