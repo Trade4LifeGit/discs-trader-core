@@ -1,5 +1,9 @@
 package com.trade4life.discs.trader.core.service.impl;
 
+import com.trade4life.discs.trader.core.domain.Game;
+import com.trade4life.discs.trader.core.domain.Offer;
+import com.trade4life.discs.trader.core.domain.OfferStatus;
+import com.trade4life.discs.trader.core.domain.Platform;
 import com.trade4life.discs.trader.core.repository.GameRepository;
 import com.trade4life.discs.trader.core.repository.OfferRepository;
 import com.trade4life.discs.trader.core.service.OfferService;

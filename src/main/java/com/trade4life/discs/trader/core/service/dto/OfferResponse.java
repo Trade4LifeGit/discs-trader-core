@@ -1,5 +1,8 @@
 package com.trade4life.discs.trader.core.service.dto;
 
+import com.trade4life.discs.trader.core.domain.Game;
+import com.trade4life.discs.trader.core.domain.Offer;
+import com.trade4life.discs.trader.core.domain.Platform;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -13,7 +16,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "OffersResponse", description = "Offers search result")
+@ApiModel(value = "OfferResponse", description = "Offers search result")
 public class OfferResponse {
     @ApiModelProperty(position = 1, allowableValues = "PSN, ESHOP", example = "PSN")
     private Platform platform;

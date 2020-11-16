@@ -1,6 +1,8 @@
 package com.trade4life.discs.trader.core.web;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.trade4life.discs.trader.core.domain.Game;
+import com.trade4life.discs.trader.core.domain.Platform;
 import com.trade4life.discs.trader.core.service.GamesService;
 import com.trade4life.discs.trader.core.service.dto.*;
 import io.swagger.annotations.*;
@@ -58,17 +60,17 @@ public class GamesController {
         @ApiResponse(code = 500, message = "Internal Error")
     })
     @GetMapping(value = "{platform}/games", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GamesResponse> getGames(@ApiParam(name = "platform", value = "Platform identifier", allowableValues = "PSN, ESHOP", defaultValue = "PSN", required = true)
+    public ResponseEntity<GameResponse> getGames(@ApiParam(name = "platform", value = "Platform identifier", allowableValues = "PSN, ESHOP", defaultValue = "PSN", required = true)
                                           @PathVariable(name = "platform") @NotNull Platform platform,
-                                          @ApiParam(name = "titlePart", value = "Game title part", example = "The Witche")
+                                                 @ApiParam(name = "titlePart", value = "Game title part", example = "The Witche")
                                           @RequestParam(name = "titlePart", required = false) String titlePart,
-                                          @ApiParam(name = "page", value = "Page number (0..N)", defaultValue = "0")
+                                                 @ApiParam(name = "page", value = "Page number (0..N)", defaultValue = "0")
                                           @RequestParam(name = "page") @NotNull Integer page,
-                                          @ApiParam(name = "size", value = "Number of records per page (0..N)", defaultValue = "5")
+                                                 @ApiParam(name = "size", value = "Number of records per page (0..N)", defaultValue = "5")
                                           @RequestParam(name = "size") @NotNull @Positive Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        GamesResponse gamesResponse = gamesService.findGamesByTitlePartAndPlatform(titlePart, platform, pageable);
-        return new ResponseEntity<>(gamesResponse, HttpStatus.OK);
+        GameResponse gameResponse = gamesService.findGamesByTitlePartAndPlatform(titlePart, platform, pageable);
+        return new ResponseEntity<>(gameResponse, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Get the game by platform and game id", nickname = "getGameById")

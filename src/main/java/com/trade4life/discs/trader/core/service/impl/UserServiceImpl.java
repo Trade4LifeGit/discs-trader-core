@@ -2,13 +2,12 @@ package com.trade4life.discs.trader.core.service.impl;
 
 import com.trade4life.discs.trader.core.repository.UserRepository;
 import com.trade4life.discs.trader.core.service.UserService;
-import com.trade4life.discs.trader.core.service.dto.User;
+import com.trade4life.discs.trader.core.domain.User;
+import com.trade4life.discs.trader.core.service.dto.UserResponse;
 import com.trade4life.discs.trader.core.service.exception.CoreException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static com.trade4life.discs.trader.core.service.exception.CoreInternalErrorCode.USER_NOT_FOUND;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -37,8 +36,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findUsers(Pageable pageable) {
-        return userRepository.findAll(pageable).getContent();
+    public UserResponse findUsers(Pageable pageable) {
+        return UserResponse.builder()
+            .page(pageable.getPageNumber())
+            .size(pageable.getPageSize())
+            .users(userRepository.findAll(pageable).getContent())
+            .build();
     }
 
     @Override

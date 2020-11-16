@@ -1,5 +1,7 @@
 package com.trade4life.discs.trader.core.service;
 
+import com.trade4life.discs.trader.core.domain.Offer;
+import com.trade4life.discs.trader.core.domain.OfferStatus;
 import com.trade4life.discs.trader.core.service.dto.*;
 import org.springframework.data.domain.Pageable;
 
