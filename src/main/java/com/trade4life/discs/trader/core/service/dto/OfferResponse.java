@@ -5,14 +5,16 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "GamesResponse", description = "Games search result")
-public class GamesResponse {
+@ApiModel(value = "OffersResponse", description = "Offers search result")
+public class OfferResponse {
     @ApiModelProperty(position = 1, allowableValues = "PSN, ESHOP", example = "PSN")
     private Platform platform;
     @ApiModelProperty(position = 2, example = "1")
@@ -22,7 +24,9 @@ public class GamesResponse {
     @ApiModelProperty(position = 4, example = "5")
     private Integer totalPages;
     @ApiModelProperty(position = 5, example = "7")
-    private Long totalGames;
+    private Long totalOffers;
     @ApiModelProperty(position = 6)
-    private List<Game> games;
+    private Set<Game> offerGames;
+    @ApiModelProperty(position = 7)
+    private Map<String, List<Offer>> offersByGameId;
 }
