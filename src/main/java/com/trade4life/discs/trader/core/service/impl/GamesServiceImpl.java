@@ -2,11 +2,11 @@ package com.trade4life.discs.trader.core.service.impl;
 
 import com.trade4life.discs.trader.core.domain.Game;
 import com.trade4life.discs.trader.core.domain.Platform;
-import com.trade4life.discs.trader.core.domain.Title;
 import com.trade4life.discs.trader.core.repository.GameRepository;
 import com.trade4life.discs.trader.core.service.GamesService;
 import com.trade4life.discs.trader.core.service.dto.*;
 import com.trade4life.discs.trader.core.service.exception.CoreException;
+import com.trade4life.discs.trader.core.service.mapper.ResponseMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.trade4life.discs.trader.core.service.exception.CoreInternalErrorCode.GAME_NOT_FOUND;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -24,40 +23,27 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RequiredArgsConstructor
 public class GamesServiceImpl implements GamesService {
     private final GameRepository gameRepository;
+    private final ResponseMapper responseMapper;
 
     @Override
-    public TitleResponse findGameTitle(String titleText, Platform platform, Integer propositionSize) {
-        Page<Title> propositionsPage = StringUtils.isNotBlank(titleText) ?
-            gameRepository.findTitlesByText(titleText, PageRequest.of(0, propositionSize)) :
-            gameRepository.findAllTitles(PageRequest.of(0, propositionSize));
+    public GamePropositionResponse findGameByTitlePartAndPlatform(String titleText, Platform platform, Integer propositionSize) {
+        Page<Game> propositionsPage = StringUtils.isNotBlank(titleText) ?
+            gameRepository.findGamesByTitlePart(titleText, PageRequest.of(0, propositionSize)) :
+            gameRepository.findAllGames(PageRequest.of(0, propositionSize));
 
-        List<Title> pageContent = propositionsPage.getContent();
+        List<Game> pageContent = propositionsPage.getContent();
         boolean isOneLineSearchResult = propositionSize > 1 && pageContent.size() == 1;
 
-        return TitleResponse.builder()
-            .platform(platform)
-            .title(isOneLineSearchResult ? pageContent.get(0).getTitle() : null)
-            .propositions(pageContent.stream()
-                .map(Title::getTitle)
-                .collect(Collectors.toSet())
-            )
-            .build();
+        Game game = isOneLineSearchResult ? pageContent.get(0) : null;
+        return responseMapper.toGamePropositionResponse(pageContent, game, platform);
     }
 
     @Override
-    public GameResponse findGamesByTitlePartAndPlatform(String titlePart, Platform platform, Pageable pageable) {
+    public GameResponse findAllGamesByTitlePartAndPlatform(String titlePart, Platform platform, Pageable pageable) {
         Page<Game> gamesPage = StringUtils.isBlank(titlePart) ? gameRepository.findAllGames(pageable) :
             gameRepository.findGamesByTitlePart(titlePart, pageable);
 
-        List<Game> pageContent = gamesPage.getContent();
-        return GameResponse.builder()
-            .platform(platform)
-            .page(pageable.getPageNumber())
-            .size(pageable.getPageSize())
-            .totalPages(gamesPage.getTotalPages())
-            .totalGames(gamesPage.getTotalElements())
-            .games(pageContent)
-            .build();
+        return responseMapper.toGameResponse(gamesPage, platform, pageable);
     }
 
     @Override
