@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/{platform}/")
 @RequiredArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Api(value = "core-offers", tags = "core-offers")
@@ -30,21 +30,21 @@ public class OffersController {
     private final OfferService offerService;
     private static final Logger LOGGER = LoggerFactory.getLogger(GamesController.class);
 
-    @ApiOperation(value = "Get the list of offers", nickname = "getPublishedOffers")
+    @ApiOperation(value = "Get the list of published offers", nickname = "getPublishedOffers")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Ok"),
         @ApiResponse(code = 400, message = "Bad Request"),
         @ApiResponse(code = 500, message = "Internal Error")
     })
-    @GetMapping(value = "{platform}/dashboard/offers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferResponse> getPublishedOffers(@ApiParam(name = "platform", value = "Platform identifier", allowableValues = "PSN, ESHOP", defaultValue = "PSN", required = true)
-                                                            @PathVariable(name = "platform") @NotNull Platform platform,
-                                                            @ApiParam(name = "page", value = "Page number (0..N)", defaultValue = "0")
-                                                            @RequestParam(name = "page") @NotNull Integer page,
-                                                            @ApiParam(name = "size", value = "Number of records per page (0..N)", defaultValue = "5") @RequestParam(name = "size") @NotNull @Positive Integer size) {
+    @GetMapping(value = "offers/published", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OfferGamesResponse> getPublishedOffers(@ApiParam(name = "platform", value = "Platform identifier", allowableValues = "PSN, ESHOP", defaultValue = "PSN", required = true)
+                                                                    @PathVariable(name = "platform") @NotNull Platform platform,
+                                                                    @ApiParam(name = "page", value = "Page number (0..N)", defaultValue = "0")
+                                                                    @RequestParam(name = "page") @NotNull Integer page,
+                                                                    @ApiParam(name = "size", value = "Number of records per page (0..N)", defaultValue = "5") @RequestParam(name = "size") @NotNull @Positive Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        OfferResponse publishedOffers = offerService.findOffersByStatus(OfferStatus.PUBLISHED, pageable);
-        return new ResponseEntity<>(publishedOffers, HttpStatus.OK);
+        OfferGamesResponse publishedOfferGames = offerService.findOffersByStatus(OfferStatus.PUBLISHED, pageable);
+        return new ResponseEntity<>(publishedOfferGames, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Publish new game offer", nickname = "publishOffer")
@@ -54,7 +54,7 @@ public class OffersController {
         @ApiResponse(code = 403, message = "Access denied"),
         @ApiResponse(code = 500, message = "Internal error")
     })
-    @PostMapping(value = "{platform}/dashboard/offers", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "offers", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Offer> publishOffer(@ApiParam(name = "platform", value = "Platform identifier", allowableValues = "PSN, ESHOP", defaultValue = "PSN", required = true)
                                               @PathVariable(name = "platform") @NotNull Platform platform,
                                               @ApiParam(name = "offer", value = "Offer") @RequestBody @NotNull Offer offer) {
@@ -70,7 +70,7 @@ public class OffersController {
         @ApiResponse(code = 403, message = "Access denied"),
         @ApiResponse(code = 500, message = "Internal error")
     })
-    @PutMapping(value = "{platform}/dashboard/offers/{offerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "offers/{offerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Offer> updateOffer(@ApiParam(name = "platform", value = "Platform identifier", allowableValues = "PSN, ESHOP", defaultValue = "PSN", required = true)
                                              @PathVariable(name = "platform") @NotNull Platform platform,
                                              @ApiParam(name = "offer", value = "Offer") @RequestBody @NotNull Offer offer,

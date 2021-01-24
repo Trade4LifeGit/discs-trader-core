@@ -6,7 +6,7 @@ import com.trade4life.discs.trader.core.service.dto.*;
 import org.springframework.data.domain.Pageable;
 
 public interface OfferService {
-    OfferResponse findOffersByStatus(OfferStatus offerStatus, Pageable pageable);
+    OfferGamesResponse findOffersByStatus(OfferStatus offerStatus, Pageable pageable);
 
     Offer findOfferById(String offerId);
 

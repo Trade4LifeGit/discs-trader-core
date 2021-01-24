@@ -9,6 +9,7 @@ import com.trade4life.discs.trader.core.repository.OfferRepository;
 import com.trade4life.discs.trader.core.service.OfferService;
 import com.trade4life.discs.trader.core.service.dto.*;
 import com.trade4life.discs.trader.core.service.exception.CoreException;
+import com.trade4life.discs.trader.core.service.mapper.ResponseMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,30 +26,17 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class OfferServiceImpl implements OfferService {
     private final OfferRepository offerRepository;
     private final GameRepository gameRepository;
+    private final ResponseMapper responseMapper;
 
     @Override
-    public OfferResponse findOffersByStatus(OfferStatus offerStatus, Pageable pageable) {
-
+    public OfferGamesResponse findOffersByStatus(OfferStatus offerStatus, Pageable pageable) {
         Page<Offer> publishedOffers = offerRepository.findOffersByStatus(OfferStatus.PUBLISHED, pageable);
         Set<String> gameIds = publishedOffers.getContent().stream()
             .map(Offer::getGameId)
             .collect(Collectors.toSet());
 
         Set<Game> games = gameRepository.findGamesByIdIn(gameIds);
-
-        Map<String, List<Offer>> offersByGameId = publishedOffers.getContent().stream()
-            .sorted(Comparator.comparing(Offer::getGameId).thenComparing(Offer::getPrice))
-            .collect(Collectors.groupingBy(Offer::getGameId));
-
-        return OfferResponse.builder()
-            .platform(Platform.PSN)
-            .page(pageable.getPageNumber())
-            .size(pageable.getPageSize())
-            .totalPages(publishedOffers.getTotalPages())
-            .totalOffers(publishedOffers.getTotalElements())
-            .offerGames(games)
-            .offersByGameId(offersByGameId)
-            .build();
+        return responseMapper.toOfferGamesResponse(games, publishedOffers, Platform.PSN, pageable);
     }
 
     @Override
