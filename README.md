@@ -14,6 +14,11 @@ To start your application in the dev profile, run:
 
 For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
 
+In case of SSLHandShakeException during communication with MongoDB for example:
+
+- Please add -Djdk.tls.client.protocols=TLSv1.2 VM argument on startup configuration in your IDE.
+  (IntelliJ IDEA Run As -> Run Configurations -> VM options)
+
 ## Building for production
 
 ### Packaging as jar
