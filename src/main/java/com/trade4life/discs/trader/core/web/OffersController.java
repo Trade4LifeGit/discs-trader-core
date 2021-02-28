@@ -8,6 +8,7 @@ import com.trade4life.discs.trader.core.service.OfferService;
 import com.trade4life.discs.trader.core.service.dto.*;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
@@ -38,12 +39,16 @@ public class OffersController {
     })
     @GetMapping(value = "offers/published", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferGamesResponse> getPublishedOffers(@ApiParam(name = "platform", value = "Platform identifier", allowableValues = "PSN, ESHOP", defaultValue = "PSN", required = true)
-                                                                    @PathVariable(name = "platform") @NotNull Platform platform,
-                                                                    @ApiParam(name = "page", value = "Page number (0..N)", defaultValue = "0")
-                                                                    @RequestParam(name = "page") @NotNull Integer page,
-                                                                    @ApiParam(name = "size", value = "Number of records per page (0..N)", defaultValue = "5") @RequestParam(name = "size") @NotNull @Positive Integer size) {
+                                                                 @PathVariable(name = "platform") @NotNull Platform platform,
+                                                                 @ApiParam(name = "userId", value = "User id")
+                                                                 @RequestParam(name = "userId", required = false) String userId,
+                                                                 @ApiParam(name = "page", value = "Page number (0..N)", defaultValue = "0")
+                                                                 @RequestParam(name = "page") @NotNull Integer page,
+                                                                 @ApiParam(name = "size", value = "Number of records per page (0..N)", defaultValue = "5")
+                                                                 @RequestParam(name = "size") @NotNull @Positive Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        OfferGamesResponse publishedOfferGames = offerService.findOffersByStatus(OfferStatus.PUBLISHED, pageable);
+        OfferGamesResponse publishedOfferGames = StringUtils.isBlank(userId) ? offerService.findOffersByStatus(OfferStatus.PUBLISHED, pageable)
+            : offerService.findOffersByStatusAndTelegramId(OfferStatus.PUBLISHED, userId, pageable);
         return new ResponseEntity<>(publishedOfferGames, HttpStatus.OK);
     }
 

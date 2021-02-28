@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 public interface OfferService {
     OfferGamesResponse findOffersByStatus(OfferStatus offerStatus, Pageable pageable);
 
+    OfferGamesResponse findOffersByStatusAndTelegramId(OfferStatus offerStatus, String telegramId, Pageable pageable);
+
     Offer findOfferById(String offerId);
 
     Offer addNewOffer(Offer offer);

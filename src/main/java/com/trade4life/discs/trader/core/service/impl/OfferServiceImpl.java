@@ -40,6 +40,17 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    public OfferGamesResponse findOffersByStatusAndTelegramId(OfferStatus offerStatus, String telegramId, Pageable pageable) {
+        Page<Offer> publishedUserOffers = offerRepository.findOffersByStatusAndTelegramUserId(OfferStatus.PUBLISHED, telegramId, pageable);
+        Set<String> gameIds = publishedUserOffers.getContent().stream()
+            .map(Offer::getGameId)
+            .collect(Collectors.toSet());
+
+        Set<Game> games = gameRepository.findGamesByIdIn(gameIds);
+        return responseMapper.toOfferGamesResponse(games, publishedUserOffers, Platform.PSN, pageable);
+    }
+
+    @Override
     public Offer findOfferById(String offerId) {
         return offerRepository.findOfferById(offerId)
             .orElseThrow(() -> new CoreException(OFFER_NOT_FOUND, NOT_FOUND));
