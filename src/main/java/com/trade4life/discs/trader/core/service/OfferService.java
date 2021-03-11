@@ -10,6 +10,8 @@ public interface OfferService {
 
     Offer findOfferById(String offerId);
 
+    OfferGamesResponse findOfferByGameId(String gameId, Pageable pageable);
+
     Offer addNewOffer(Offer offer);
 
     Offer updateOffer(Offer offer);

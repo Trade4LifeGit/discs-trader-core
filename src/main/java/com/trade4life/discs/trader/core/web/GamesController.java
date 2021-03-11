@@ -46,9 +46,6 @@ public class GamesController {
                                                @ApiParam(name = "propositionSize", value = "Number of title propositions (1..N)", defaultValue = "5")
                                                @RequestParam(name = "propositionSize", defaultValue = "5") @Positive Integer propositionSize) {
         GamePropositionResponse gamePropositionResponse = gamesService.findGameByTitlePartAndPlatform(titleText, platform, propositionSize);
-        if (gamePropositionResponse.getGame() == null) {
-            return new ResponseEntity<>(gamePropositionResponse, HttpStatus.NO_CONTENT);
-        }
         return new ResponseEntity<>(gamePropositionResponse, HttpStatus.OK);
     }
 
