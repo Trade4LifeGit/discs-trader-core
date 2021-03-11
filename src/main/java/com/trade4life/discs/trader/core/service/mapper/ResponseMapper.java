@@ -60,4 +60,18 @@ public interface ResponseMapper {
             .offerGames(offerGames)
             .build();
     }
+
+    default OfferGamesResponse toOfferGamesResponse(Page<Offer> publishedOffers, Platform platform, Pageable pageable) {
+
+        Set<Offer> offers = publishedOffers.get().collect(Collectors.toSet());
+
+        return OfferGamesResponse.builder()
+            .platform(Platform.PSN)
+            .page(pageable.getPageNumber())
+            .size(pageable.getPageSize())
+            .totalPages(publishedOffers.getTotalPages())
+            .totalOfferGames(publishedOffers.getTotalElements())
+            .offers(offers)
+            .build();
+    }
 }

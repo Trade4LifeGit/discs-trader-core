@@ -11,5 +11,7 @@ import java.util.Optional;
 public interface OfferRepository extends MongoRepository<Offer, String> {
     Page<Offer> findOffersByStatus(OfferStatus offerStatus, Pageable pageable);
 
+    Page<Offer> findOffersByGameId(String gameId, Pageable pageable);
+
     Optional<Offer> findOfferById(String id);
 }
