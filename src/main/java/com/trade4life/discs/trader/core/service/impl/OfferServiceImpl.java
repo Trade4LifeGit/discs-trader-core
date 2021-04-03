@@ -57,6 +57,12 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    public OfferGamesResponse findOfferByGameId(String gameId, Pageable pageable) {
+        Page<Offer> offers = offerRepository.findOffersByGameId(gameId, pageable);
+        return responseMapper.toOfferGamesResponse(offers, Platform.PSN, pageable);
+    }
+
+    @Override
     public Offer addNewOffer(Offer offer) {
         if (offer.getId() != null) {
             return updateOffer(offer);

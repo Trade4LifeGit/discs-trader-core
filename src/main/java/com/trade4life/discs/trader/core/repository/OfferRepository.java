@@ -13,5 +13,7 @@ public interface OfferRepository extends MongoRepository<Offer, String> {
 
     Page<Offer> findOffersByStatusAndTelegramUserId(OfferStatus offerStatus, String telegramId, Pageable pageable);
 
+    Page<Offer> findOffersByGameId(String gameId, Pageable pageable);
+
     Optional<Offer> findOfferById(String id);
 }

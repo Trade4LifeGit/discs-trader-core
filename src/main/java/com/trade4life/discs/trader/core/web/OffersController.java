@@ -39,16 +39,21 @@ public class OffersController {
     })
     @GetMapping(value = "offers/published", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferGamesResponse> getPublishedOffers(@ApiParam(name = "platform", value = "Platform identifier", allowableValues = "PSN, ESHOP", defaultValue = "PSN", required = true)
-                                                                 @PathVariable(name = "platform") @NotNull Platform platform,
-                                                                 @ApiParam(name = "userId", value = "User id")
-                                                                 @RequestParam(name = "userId", required = false) String userId,
-                                                                 @ApiParam(name = "page", value = "Page number (0..N)", defaultValue = "0")
-                                                                 @RequestParam(name = "page") @NotNull Integer page,
-                                                                 @ApiParam(name = "size", value = "Number of records per page (0..N)", defaultValue = "5")
-                                                                 @RequestParam(name = "size") @NotNull @Positive Integer size) {
+                                                                    @PathVariable(name = "platform") @NotNull Platform platform,
+                                                                    @ApiParam(name = "gameId", value = "game id")
+                                                                    @RequestParam(name = "gameId", required = false) String gameId,
+                                                                    @ApiParam(name = "page", value = "Page number (0..N)", defaultValue = "0")
+                                                                    @RequestParam(name = "page") @NotNull Integer page,
+                                                                    @ApiParam(name = "size", value = "Number of records per page (0..N)", defaultValue = "5")
+                                                                    @RequestParam(name = "size") @NotNull @Positive Integer size ) {
         Pageable pageable = PageRequest.of(page, size);
-        OfferGamesResponse publishedOfferGames = StringUtils.isBlank(userId) ? offerService.findOffersByStatus(OfferStatus.PUBLISHED, pageable)
-            : offerService.findOffersByStatusAndTelegramId(OfferStatus.PUBLISHED, userId, pageable);
+
+        if (!StringUtils.isBlank(gameId)){
+            OfferGamesResponse offers = offerService.findOfferByGameId(gameId, pageable);
+            return new ResponseEntity<>(offers, HttpStatus.OK);
+        }
+
+        OfferGamesResponse publishedOfferGames = offerService.findOffersByStatus(OfferStatus.PUBLISHED, pageable);
         return new ResponseEntity<>(publishedOfferGames, HttpStatus.OK);
     }
 

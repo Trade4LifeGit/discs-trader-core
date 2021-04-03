@@ -1,5 +1,6 @@
 package com.trade4life.discs.trader.core.service.dto;
 
+import com.trade4life.discs.trader.core.domain.Offer;
 import com.trade4life.discs.trader.core.domain.Platform;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,4 +27,6 @@ public class OfferGamesResponse {
     private Long totalOfferGames;
     @ApiModelProperty(position = 6)
     private Set<GameWithRelatedOffers> offerGames;
+    @ApiModelProperty(position = 7)
+    private Set<Offer> offers;
 }
