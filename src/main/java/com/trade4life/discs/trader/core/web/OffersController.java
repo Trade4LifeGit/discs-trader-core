@@ -42,19 +42,22 @@ public class OffersController {
                                                                     @PathVariable(name = "platform") @NotNull Platform platform,
                                                                     @ApiParam(name = "gameId", value = "game id")
                                                                     @RequestParam(name = "gameId", required = false) String gameId,
+                                                                    @ApiParam(name = "userId", value = "User id")
+                                                                    @RequestParam(name = "userId", required = false) String userId,
                                                                     @ApiParam(name = "page", value = "Page number (0..N)", defaultValue = "0")
                                                                     @RequestParam(name = "page") @NotNull Integer page,
                                                                     @ApiParam(name = "size", value = "Number of records per page (0..N)", defaultValue = "5")
                                                                     @RequestParam(name = "size") @NotNull @Positive Integer size ) {
         Pageable pageable = PageRequest.of(page, size);
 
-        if (!StringUtils.isBlank(gameId)){
+        if (!StringUtils.isBlank(gameId)) {
             OfferGamesResponse offers = offerService.findOfferByGameId(gameId, pageable);
             return new ResponseEntity<>(offers, HttpStatus.OK);
+        } else if (!StringUtils.isBlank(userId)){
+            OfferGamesResponse offers = offerService.findOffersByStatusAndTelegramId(OfferStatus.PUBLISHED, userId, pageable);
+            return new ResponseEntity<>(offers, HttpStatus.OK);
         }
-
-        OfferGamesResponse publishedOfferGames = offerService.findOffersByStatus(OfferStatus.PUBLISHED, pageable);
-        return new ResponseEntity<>(publishedOfferGames, HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
     @ApiOperation(value = "Publish new game offer", nickname = "publishOffer")
