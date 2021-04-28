@@ -57,7 +57,7 @@ public class OffersController {
             OfferGamesResponse offers = offerService.findOffersByStatusAndTelegramId(OfferStatus.PUBLISHED, userId, pageable);
             return new ResponseEntity<>(offers, HttpStatus.OK);
         }
-        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(offerService.findOffersByStatus(OfferStatus.PUBLISHED, pageable), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Publish new game offer", nickname = "publishOffer")
