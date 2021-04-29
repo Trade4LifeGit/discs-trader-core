@@ -93,4 +93,21 @@ public class OffersController {
         Offer updatedOffer = offerService.updateOffer(offer);
         return new ResponseEntity<>(updatedOffer, HttpStatus.NO_CONTENT);
     }
+
+    @ApiOperation(value = "Delete the offer", nickname = "deleteOffer")
+    @ApiResponses(value = {
+        @ApiResponse(code = 204, message = "Deleted"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 403, message = "Access denied"),
+        @ApiResponse(code = 500, message = "Internal error")
+    })
+    @DeleteMapping(value = "offers/{offerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> deleteOffer(@ApiParam(name = "platform", value = "Platform identifier", allowableValues = "PSN, ESHOP", defaultValue = "PSN", required = true)
+                                               @PathVariable(name = "platform") @NotNull Platform platform,
+                                               @ApiParam(name = "offerId", value = "Offer id", required = true)
+                                               @PathVariable(name = "offerId") @NotBlank String offerId){
+        //TODO: idk what to return here in response as identifier
+        offerService.deleteOffer(offerId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

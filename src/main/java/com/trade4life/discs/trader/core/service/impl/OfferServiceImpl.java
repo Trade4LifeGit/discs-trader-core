@@ -77,4 +77,9 @@ public class OfferServiceImpl implements OfferService {
             .orElseThrow(() -> new CoreException(OFFER_NOT_FOUND, NOT_FOUND));
         return offerRepository.save(offer);
     }
+
+    @Override
+    public void deleteOffer(String offerId) {
+        offerRepository.deleteById(offerId);
+    }
 }
